@@ -24,6 +24,8 @@ const products = [
   { name: "Keyboard", price: 100, inStock: false },
 ];
 
+console.log("All products: ", products)
+
 // ============================================
 // 🔧 Tasks
 // ============================================
@@ -44,7 +46,15 @@ Step-by-Step:
 3. Return the filtered result.
 */
 
+function filterProducts(products, callback) {
+  return products.filter(callback)
+}
 
+let availableProducts = filterProducts(products, product => product.inStock)
+let affordableProducts = filterProducts(products, price => price.price < 500)
+
+console.log("Available products: ", availableProducts)
+console.log("Affordable products: ", affordableProducts)
 /*
 🔹 Task 2: Transform Product Names
 
@@ -56,6 +66,13 @@ Step-by-Step:
 3. Store the result in a new variable.
 */
 
+function transformProducts(products, callback) {
+  return products.map(callback)
+}
+
+let uppercaseProducts = transformProducts(products, (product) => ({...product, name: product.name.toUpperCase()}))
+
+console.log("Transformed products: ", uppercaseProducts)
 
 /*
 🔹 Task 3: Generate Discounted Prices
@@ -70,6 +87,16 @@ Step-by-Step:
 3. Use this returned function inside a `map()` call to apply discounts to all products.
 */
 
+function applyDiscount(discountPercent) {
+  return function(productObject) {
+    const discount = (discountPercent / 100) * productObject.price
+    return {...productObject, price: productObject.price - discount}
+  }
+}
+
+let blackFridayDiscount = applyDiscount(50)
+
+console.log("Black Friday Deals: ", products.map(blackFridayDiscount))
 
 /*
 🔹 Task 4: Calculate Total Inventory Value
@@ -82,6 +109,14 @@ Step-by-Step:
 3. Store the total in a new variable.
 */
 
+let totalCostOfAvailableProducts = products.reduce((total, product) => {
+  if (product.inStock) {
+    return total + product.price;
+  }
+  return total;
+}, 0);
+
+console.log("Total cost of available products: $" + totalCostOfAvailableProducts)
 
 // ============================================
 // 🧪 Console Test Your Work
